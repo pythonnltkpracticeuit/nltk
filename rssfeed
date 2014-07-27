@@ -1,0 +1,22 @@
+import urllib.request
+from urllib.request import urlopen
+import re
+
+def main():
+    try:
+        response = urlopen('https://www.facebook.com/feeds/notifications.php?id=100008008591220&viewer=100008008591220&key=AWiZGtbW-XOCnsoY&format=rss20')
+        the_page = response.read().decode('utf8')
+
+        try:
+            titles = re.findall(r'<title>(.*?)</title>',the_page)
+            links = re.findall(r'<link>(.*?)</link>',the_page)
+
+            for i in range(len(titles)):
+                print(titles[i],"\n",links[i])
+        except e:
+            print(str(e))
+
+    except e:
+        print (str(e))
+
+main()
