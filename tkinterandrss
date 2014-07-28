@@ -1,0 +1,51 @@
+import sys
+from tkinter import *
+import tkinter as tk
+import urllib.request
+from urllib.request import urlopen
+import re
+import webbrowser
+
+
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        tk.Frame.__init__(self, master)
+        self.pack()
+        self.createWidgets()
+
+    def createWidgets(self):
+        self.hi_there = tk.Button(self)
+        self.hi_there["text"] = "Click to see facebook news"
+        self.hi_there["command"] = self.createWidgets_2
+        self.hi_there.pack(side="top")
+
+        self.QUIT = tk.Button(self, text="QUIT", fg="red",
+                                            command=root.destroy)
+        self.QUIT.pack(side="bottom")
+
+    
+    def createWidgets_2(self):
+        toplevel=Toplevel()
+        try:
+            response = urlopen('')
+            the_page = response.read().decode('utf8')
+
+            try:
+                titles.append(re.findall(r'<title>(.*?)</title>',the_page))
+                links.append(re.findall(r'<link>(.*?)</link>',the_page))
+                for i in range(len(titles)):
+                    newsbutton= Button(toplevel,text=titles[i] , command=webbrowser.open_new(str(links[i]).strip('<link>(.*?)</link>'))).pack(side="top")
+
+            except e:
+                print(str(e))
+
+        except e:
+            print (str(e))
+        
+
+root = tk.Tk()
+app = Application(master=root)
+app.pack(side="top",fill="both", expand=True)
+
+app.mainloop()
